@@ -1,0 +1,25 @@
+.image-wrapper {
+  position: relative;
+
+  .crop-image {
+    position: absolute;
+    top: 1vh;
+    bottom: 0;
+    right: 0;
+    left: 1vw;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    width: 38vw;
+    height: 38vh;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 40vw;
+    height: 40vh;
+  }
+}
+

@@ -2,7 +2,7 @@ import Immutable from 'seamless-immutable';
 import * as type from '../actions/fetchRecipes/actionsTypes';
 
 const initialState = Immutable({
-  recipesList: null,
+  recipesList: [],
 });
 
 export default (state = initialState, action = {}) => {
