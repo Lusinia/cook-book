@@ -1,0 +1,16 @@
+.new-recipe {
+  background-size: cover;
+  background: url("../../../../assets/images/form-bg.jpg") no-repeat;
+  min-height: 90vh;
+  height: 100%;
+  overflow: hidden;
+  width: 100vw;
+  padding-top: 1rem;
+
+  form {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0.5rem;
+  }
+}

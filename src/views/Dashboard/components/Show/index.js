@@ -113,7 +113,7 @@ class ShowRecipe extends Component {
                 />
                 <ItemsList
                   title='Categories'
-                  items={this.state.currentItem.category}
+                  items={this.state.currentItem.categories}
                 />
                 <ItemsList
                   title='Total time'

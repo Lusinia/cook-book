@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
-import { sendAddRecipeRequest } from '../../../../redux/actions/changeRecipe';
+import { sendAddRecipeRequest, sendEditRecipeRequest } from '../../../../redux/actions/changeRecipe';
+import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
 import RecipeForm from './components/RecipeForm';
 import './styles.scss';
 
@@ -10,6 +11,7 @@ import './styles.scss';
 class NewRecipe extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       time: '',
@@ -21,6 +23,25 @@ class NewRecipe extends Component {
       isPushed: false,
       activeStep: ''
     };
+  }
+
+  async componentDidMount() {
+    await this.props.fetchBooksList();
+
+    const path = this.props.location.pathname.split('/');
+    this.currentItem = path.includes('edit') ? this.props.listInfo.find(item => item._id === path[1]) : null;
+    if (this.currentItem) {
+      const { name, time, description, imageURL, steps, ingredients, categories } = this.currentItem;
+      await this.setState({
+        name,
+        time,
+        description,
+        imageURL,
+        steps: steps || [],
+        ingredients: ingredients || [],
+        categories: categories || []
+      });
+    }
   }
 
   handleChangeText(event, field) {
@@ -53,7 +74,7 @@ class NewRecipe extends Component {
     const data = {
       name,
       ingredients,
-      category: categories,
+      categories,
       description,
       steps,
       time: +time,
@@ -67,7 +88,8 @@ class NewRecipe extends Component {
     } else {
       const isValid = Object.values(data).filter(item => Array.isArray(item) ? !item.length : !item);
       if (!isValid.length) {
-        await this.props.sendAddRecipeRequest(data);
+        this.currentItem ? await this.props.sendEditRecipeRequest({ id: this.currentItem._id, data }) :
+          await this.props.sendAddRecipeRequest(data);
         this.props.history.push('/');
       }
     }
@@ -90,12 +112,20 @@ class NewRecipe extends Component {
 }
 
 NewRecipe.propTypes = {
-  info: PropTypes.any,
-  sendAddRecipeRequest: PropTypes.func
+  info: PropTypes.string,
+  listInfo: PropTypes.array,
+  sendAddRecipeRequest: PropTypes.func,
+  sendEditRecipeRequest: PropTypes.func,
+  fetchBooksList: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
-  info: state.addRecipeResponse.info
+  info: state.changeRecipeResponse.info,
+  listInfo: state.recipesList.recipesList
 });
 
-export default connect(mapStateToProps, { sendAddRecipeRequest })(NewRecipe);
+export default connect(mapStateToProps, {
+  sendAddRecipeRequest,
+  sendEditRecipeRequest,
+  fetchBooksList
+})(NewRecipe);

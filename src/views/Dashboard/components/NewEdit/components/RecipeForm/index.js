@@ -18,11 +18,12 @@ const RecipeForm = (props) => (
         </Col>
         <Col sm={5}>
           <Input
-            invalid={props.values.isPushed && !props.values.name}
+            value={props.values.name}
             type="text"
             name="name"
             id="name"
             placeholder="Name of your recipe"
+            invalid={props.values.isPushed && !props.values.name}
             onChange={item => props.handleChangeText(item, 'name')}
           />
         </Col>
@@ -31,11 +32,12 @@ const RecipeForm = (props) => (
         </Col>
         <Col sm={2}>
           <Input
-            invalid={props.values.isPushed && (!props.values.time || +props.values.time < 0)}
+            value={props.values.time}
             type="number"
             name="time"
             id="time"
             placeholder="Time"
+            invalid={props.values.isPushed && (!props.values.time || +props.values.time < 0)}
             onChange={item => props.handleChangeText(item, 'time')}
           />
         </Col>
@@ -46,11 +48,12 @@ const RecipeForm = (props) => (
         </Col>
         <Col sm={10}>
           <Input
-            invalid={props.values.isPushed && !props.values.imageURL}
+            value={props.values.imageURL}
             type="url"
             name="imageURL"
             id="imageURL"
             placeholder="Enter url for your recipe"
+            invalid={props.values.isPushed && !props.values.imageURL}
             onChange={item => props.handleChangeText(item, 'imageURL')}
           />
         </Col>
@@ -72,6 +75,7 @@ const RecipeForm = (props) => (
         </Col>
         <Col sm={10}>
           <Input
+            value={props.values.description}
             type="textarea"
             name="description"
             id="description"
@@ -128,7 +132,10 @@ RecipeForm.propTypes = {
     description: PropTypes.string,
     imageURL: PropTypes.string,
     activeStep: PropTypes.string,
-    time: PropTypes.string,
+    time: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     ingredients: PropTypes.array,
     categories: PropTypes.array,
     isPushed: PropTypes.bool
