@@ -1,0 +1,1 @@
+export const POST_REQUEST = 'cookBook.POST_REQUEST';

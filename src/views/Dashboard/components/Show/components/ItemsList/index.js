@@ -5,14 +5,12 @@ import "./styles.scss";
 
 
 const ItemsList = (props) => {
-  const list = (data) => {
-  return  typeof data === 'number' ?
-     (<ListGroupItem>{data} min</ListGroupItem>)
-    :
-    data.map(item => (
-      <ListGroupItem className={props.isStep ? 'item-step' : ''} key={item}>{item}</ListGroupItem>
+  const list = (data) =>  Array.isArray(data) ?
+    data.map((item, index) => (
+      <ListGroupItem className={props.isStep ? 'item-step' : ''} key={`${item}${index}`}>{item}</ListGroupItem>
     ))
-  };
+    :
+    (<ListGroupItem>{data} min</ListGroupItem>);
 
   return (
     <div className='items-list'>
@@ -27,6 +25,10 @@ const ItemsList = (props) => {
 ItemsList.propTypes = {
   title: PropTypes.string,
   isStep: PropTypes.bool,
+  items: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.array
+  ]),
 };
 
 export default ItemsList;

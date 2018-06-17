@@ -1,11 +1,13 @@
-import PropTypes from "prop-types";
-import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
-import { connect } from "react-redux";
-import { Col, Container, Row } from "reactstrap";
-import { fetchBooksList } from "../../../../redux/actions/fetchRecipes";
-import ItemsList from "./components/ItemsList";
-import "./styles.scss";
+import { connect } from 'react-redux';
+import { Col, Container, Row, Button } from 'reactstrap';
+import { sendRemoveRecipeRequest } from '../../../../redux/actions/changeRecipe';
+import ModalItem from './components/ModalItem';
+import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
+import ItemsList from './components/ItemsList';
+import './styles.scss';
 
 
 class ShowRecipe extends Component {
@@ -14,8 +16,11 @@ class ShowRecipe extends Component {
     super(props);
 
     this.state = {
-      currentItem: null
+      currentItem: null,
+      isModal: false
     };
+
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   async componentDidMount() {
@@ -28,8 +33,20 @@ class ShowRecipe extends Component {
     });
   }
 
+  redirectPage(edit) {
+    this.props.history.push(edit ? `/${this.state.currentItem._id}/edit` : '/');
+  }
+
+  async toggleModal(isDelete) {
+    this.setState(prevState => ({ isModal: !prevState.isModal }));
+
+    if (isDelete) {
+      await this.props.sendRemoveRecipeRequest(this.state.currentItem._id);
+      this.redirectPage();
+    }
+  }
+
   render() {
-    console.log("ShowRecipe", this.state);
     return (
       <div className="show-recipe">
         <Container>
@@ -37,19 +54,26 @@ class ShowRecipe extends Component {
           <div>
             <Row>
               <Col>
-                <div className="image-wrapper">
-                  <img src={this.state.currentItem.imageURL} alt="recipe image"/>
-                  <div className="crop-image"></div>
-                  <div className="image-title">
-                    <h1 className="image-title__text">
-                      {this.state.currentItem.name}
-                    </h1>
+                <div className="image-wrapper__blur">
+                  <img
+                    src={this.state.currentItem.imageURL}
+                    alt='bg outer'
+                    className='big-image'
+                  />
+                  <div className="image-wrapper">
+                    <img src={this.state.currentItem.imageURL} alt='bg inner'/>
+                    <div className="crop-image"/>
+                    <div className="image-title">
+                      <h1 className="image-title__text">
+                        {this.state.currentItem.name}
+                      </h1>
+                    </div>
                   </div>
                 </div>
               </Col>
             </Row>
             <Row>
-              < Col  sm={{ size: 12, order: 2}}  md={{ size: 8, order: 1}}>
+              < Col sm={{ size: 12, order: 2 }} md={{ size: 8, order: 1 }}>
                 <p className="item-description">
                   {this.state.currentItem.description}
                 </p>
@@ -60,7 +84,29 @@ class ShowRecipe extends Component {
                 />
 
               </Col>
-              <Col sm={{ size: 12, order: 1}} md={{ size: 4, order: 2}}>
+              <Col sm={{ size: 12, order: 1 }} md={{ size: 4, order: 2 }}>
+                <div className="buttons-wrapper">
+                  <Row>
+                    <Col sm='6' md='12'>
+                      <Button
+                        color="danger"
+                        onClick={() => this.toggleModal()}
+                      >
+                        <i className="fa fa-trash"/>
+                        Delete recipe
+                      </Button>
+                    </Col>
+                    <Col sm='6' md='12'>
+                      <Button
+                        color="warning"
+                        onClick={() => this.redirectPage(true)}
+                      >
+                        <i className="fa fa-pencil"/>
+                        Edit recipe
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
                 <ItemsList
                   title='Ingredients'
                   items={this.state.currentItem.ingredients}
@@ -77,6 +123,7 @@ class ShowRecipe extends Component {
             </Row>
           </div>
           }
+          <ModalItem isModal={this.state.isModal} toggle={this.toggleModal.bind(this)}/>
         </Container>
       </div>
     );
@@ -86,11 +133,13 @@ class ShowRecipe extends Component {
 
 ShowRecipe.propTypes = {
   listInfo: PropTypes.array,
-  location: PropTypes.object
+  location: PropTypes.object,
+  fetchBooksList: PropTypes.func,
+  sendRemoveRecipeRequest: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   listInfo: state.recipesList.recipesList
 });
 
-export default connect(mapStateToProps, { fetchBooksList })(ShowRecipe);
+export default connect(mapStateToProps, { fetchBooksList, sendRemoveRecipeRequest })(ShowRecipe);

@@ -6,9 +6,14 @@
     display: flex;
     justify-content: space-between;
 
-    .fa-star {
-      color: orange;
+    .fa {
+      font-size: 0.8rem;
+
+      &-star {
+        color: orange;
+      }
     }
+
   }
   .card {
     height: 100%;
