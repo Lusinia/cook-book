@@ -9,16 +9,16 @@ export const booksListSuccess = payload => ({
   payload
 });
 
-export const booksList = () => dispatch => Axios.get(BASE_URL)
-  .then(res => {
-    console.log('res.data', res.data);
+export const booksList = () => async(dispatch) => {
+  try {
+    const res = await Axios.get(BASE_URL);
     dispatch(booksListSuccess(res.data));
-  })
-  .catch(err => {
+
+  } catch (err) {
     dispatch(failureError(err.message));
-  });
+  }
+};
 
-
-export const fetchBooksList = () => dispatch => {
-  dispatch(booksList());
+export const fetchBooksList = () => async(dispatch) => {
+  await dispatch(booksList());
 };

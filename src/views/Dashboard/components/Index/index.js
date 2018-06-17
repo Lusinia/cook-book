@@ -28,9 +28,9 @@ class ShowRecipes extends Component {
         <div className="banner-wrapper">
           <InputGroup>
             <h1 className='title'>Find a Recipe</h1>
-            {/*<InputGroupAddon addonType="prepend">*/}
-              {/*<i className="fa fa-search" aria-hidden="true"></i>*/}
-            {/*</InputGroupAddon>*/}
+            <InputGroupAddon addonType="prepend">
+              <i className="fa fa-search" aria-hidden="true"></i>
+            </InputGroupAddon>
             <Input type="search" name="search" id="search"/>
           </InputGroup>
         </div>

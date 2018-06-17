@@ -18,6 +18,10 @@
       cursor: pointer;
     }
 
+    img {
+      height: 20vh;
+    }
+
     .card-body {
       display: flex;
       flex-direction: column;
@@ -36,6 +40,10 @@
     .card {
       flex-direction: row;
       max-height: 50vh;
+
+      img {
+        height: auto;
+      }
 
       .card-img-top {
         width: 70%;
