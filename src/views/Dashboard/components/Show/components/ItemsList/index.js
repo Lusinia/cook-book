@@ -6,8 +6,8 @@ import "./styles.scss";
 
 const ItemsList = (props) => {
   const list = (data) => {
-  return  typeof data[0] === 'number' ?
-     (<ListGroupItem>{data.reduce((a, b) => a+b, 0) } min</ListGroupItem>)
+  return  typeof data === 'number' ?
+     (<ListGroupItem>{data} min</ListGroupItem>)
     :
     data.map(item => (
       <ListGroupItem className={props.isStep ? 'item-step' : ''} key={item}>{item}</ListGroupItem>

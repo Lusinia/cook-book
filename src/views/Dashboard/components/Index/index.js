@@ -12,7 +12,6 @@ import Immutable from 'seamless-immutable';
 class ShowRecipes extends Component {
 
   async componentDidMount() {
-    console.log('componentDidMount');
    await this.props.fetchBooksList();
   }
 

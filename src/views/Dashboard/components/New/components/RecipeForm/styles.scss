@@ -1,0 +1,18 @@
+.new-recipe-form {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 3px;
+  overflow: hidden;
+
+  .form-group {
+    align-items: center;
+
+    div {
+      text-align: left;
+    }
+
+    label {
+      margin: 0;
+    }
+  }
+}

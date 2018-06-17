@@ -7,7 +7,6 @@ import './styles.scss';
 
 const RecipeItem = (props) => {
   const onChange = (data) => {
-    console.log('fsys', data);
   };
 
   return (

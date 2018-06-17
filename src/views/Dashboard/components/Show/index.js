@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Col, Container, Input, InputGroup, Row } from "reactstrap";
 
 import { connect } from "react-redux";
+import { Col, Container, Row } from "reactstrap";
 import { fetchBooksList } from "../../../../redux/actions/fetchRecipes";
-import "./styles.scss";
 import ItemsList from "./components/ItemsList";
+import "./styles.scss";
 
 
 class ShowRecipe extends Component {
@@ -26,7 +26,6 @@ class ShowRecipe extends Component {
     await this.setState({
       currentItem: this.props.listInfo.find(i => i._id === id)
     });
-    console.log("st", this.state.currentItem);
   }
 
   render() {
@@ -72,7 +71,7 @@ class ShowRecipe extends Component {
                 />
                 <ItemsList
                   title='Total time'
-                  items={this.state.currentItem.timers}
+                  items={this.state.currentItem.time}
                 />
               </Col>
             </Row>
