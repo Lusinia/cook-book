@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 import './index.scss';
 import App from './App';
 import { Provider } from 'react-redux';

@@ -15,7 +15,7 @@ class Dashboard extends Component {
           <Route path="/" exact component={ShowRecipes} />
           <Route path="/:id/edit" exact component={EditRecipe} />
           <Route path="/new" exact component={NewRecipe} />
-          <Route path="/:id/" exact component={ShowRecipe} />
+          <Route path="/:id" exact component={ShowRecipe} />
         </Switch>
       </div>
     );
