@@ -4,19 +4,29 @@ import { connect } from 'react-redux';
 import { Col, Container, Input, InputGroup, InputGroupAddon, Row } from 'reactstrap';
 import { SM_WIDTH } from '../../../../constants';
 import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
+import CarouselComponent from './components/CarouselItem';
 import RecipeItem from './components/RecipeItem';
 import './styles.scss';
 import Immutable from 'seamless-immutable';
 
 
 class ShowRecipes extends Component {
+  state = {
+    filterData: null
+  };
 
   async componentDidMount() {
     await this.props.fetchBooksList();
   }
 
   sortData(data) {
-    return Immutable.asMutable(data).sort((a, b) => {
+    const filteredData = Immutable.asMutable(data).filter(item => {
+      return this.state.filterData ?
+        this.state.filterData === item.name ||
+        this.state.filterData === item.description
+        : true;
+    });
+    return Immutable.asMutable(filteredData).sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
   }
@@ -30,7 +40,11 @@ class ShowRecipes extends Component {
             <InputGroupAddon addonType="prepend">
               <i className="fa fa-search" aria-hidden="true"></i>
             </InputGroupAddon>
-            <Input type="search" name="search" id="search"/>
+            <Input
+              type="search"
+              name="search"
+              id="search"
+            />
           </InputGroup>
         </div>
         <Container>
@@ -52,9 +66,8 @@ class ShowRecipes extends Component {
                   case 3:
                     return (
                       <Col key={item.name} md="12">
-                        <RecipeItem
-                          data={item}
-                          isHorizontal={window.innerWidth >= SM_WIDTH}
+                        <CarouselComponent
+                          data={this.sortData(this.props.listInfo)}
                           changeRoute={this.props.history.push}
                         />
                       </Col>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './styles.scss';
-import ShowRecipes from './components/Index';
-import EditRecipe from './components/Edit';
 import { Route, Switch } from 'react-router-dom';
+import ShowRecipes from './components/Index';
 import NewRecipe from './components/NewEdit';
 import ShowRecipe from './components/Show';
+import './styles.scss';
 
 
 class Dashboard extends Component {
