@@ -89,6 +89,7 @@ class ShowRecipe extends Component {
                   <Row>
                     <Col sm='6' md='12'>
                       <Button
+                        outline
                         color="danger"
                         onClick={() => this.toggleModal()}
                       >
@@ -98,6 +99,7 @@ class ShowRecipe extends Component {
                     </Col>
                     <Col sm='6' md='12'>
                       <Button
+                        outline
                         color="warning"
                         onClick={() => this.redirectPage(true)}
                       >

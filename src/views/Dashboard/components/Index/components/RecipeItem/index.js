@@ -1,12 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Rating from 'react-rating';
+import { connect } from 'react-redux';
 import { Card, CardBody, CardImg, CardText, CardTitle } from 'reactstrap';
+import { sendEditRecipeRequest } from '../../../../../../redux/actions/changeRecipe';
 import './styles.scss';
 
 
 const RecipeItem = (props) => {
-  const onChange = (data) => {
+  const onChange = async (data) => {
+    // const count = props.data.rating.count + 1;
+    // const value = (props.data.rating.value + data) / count;
+    //
+    // await props.sendEditRecipeRequest({
+    //   id: props.data._id,
+    //   data: {
+    //     ...props.data,
+    //     rating: {
+    //       count,
+    //       value
+    //     }
+    //   }
+    // });
   };
 
   return (
@@ -33,12 +48,17 @@ const RecipeItem = (props) => {
             <CardText>{props.data.description.substr(0, 30)}...</CardText>
           </div>
           <div className="show-recipe__bottom">
-            <Rating
-              emptySymbol="fa fa-star-o"
-              fullSymbol="fa fa-star"
-              fractions={1}
-              onChange={(data) => onChange(data)}
-            />
+           <div>
+             <Rating
+               start = {0}
+               stop = {5}
+               emptySymbol="fa fa-star-o"
+               fullSymbol="fa fa-star"
+               initialRating={props.data.rating.value}
+               onChange={(data) => onChange(data)}
+             />
+             <span className="date-info">({props.data.rating.count})</span>
+           </div>
             <p className="date-info">{new Date(props.data.date).toDateString()}</p>
           </div>
         </CardBody>
@@ -54,10 +74,15 @@ RecipeItem.propTypes = {
     date: PropTypes.string,
     description: PropTypes.string,
     imageURL: PropTypes.string,
+    rating: PropTypes.shape({
+      count: PropTypes.number,
+      value: PropTypes.number
+    }),
     isHorizontal: PropTypes.bool,
     isBigCard: PropTypes.bool,
-    changeRoute: PropTypes.func,
-  })
+    changeRoute: PropTypes.func
+  }),
+  sendEditRecipeRequest: PropTypes.func
 };
 
-export default RecipeItem;
+export default connect(null, { sendEditRecipeRequest })(RecipeItem);

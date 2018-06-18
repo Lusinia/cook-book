@@ -21,6 +21,10 @@ class NewRecipe extends Component {
       ingredients: [],
       categories: [],
       isPushed: false,
+      rating: {
+        count: 0,
+        value: 0
+      },
       activeStep: ''
     };
   }
@@ -31,7 +35,7 @@ class NewRecipe extends Component {
     const path = this.props.location.pathname.split('/');
     this.currentItem = path.includes('edit') ? this.props.listInfo.find(item => item._id === path[1]) : null;
     if (this.currentItem) {
-      const { name, time, description, imageURL, steps, ingredients, categories } = this.currentItem;
+      const { name, time, description, imageURL, steps, ingredients, categories, rating } = this.currentItem;
       await this.setState({
         name,
         time,
@@ -39,7 +43,8 @@ class NewRecipe extends Component {
         imageURL,
         steps: steps || [],
         ingredients: ingredients || [],
-        categories: categories || []
+        categories: categories || [],
+        rating
       });
     }
   }
@@ -89,7 +94,12 @@ class NewRecipe extends Component {
       const isValid = Object.values(data).filter(item => Array.isArray(item) ? !item.length : !item);
       if (!isValid.length) {
         this.currentItem ? await this.props.sendEditRecipeRequest({ id: this.currentItem._id, data }) :
-          await this.props.sendAddRecipeRequest(data);
+          await this.props.sendAddRecipeRequest({...data,
+            rating: {
+              count: 0,
+              value: 0
+            }
+          });
         this.props.history.push('/');
       }
     }

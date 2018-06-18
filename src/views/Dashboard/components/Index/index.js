@@ -7,28 +7,41 @@ import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
 import CarouselComponent from './components/CarouselItem';
 import RecipeItem from './components/RecipeItem';
 import './styles.scss';
-import Immutable from 'seamless-immutable';
 
 
 class ShowRecipes extends Component {
-  state = {
-    filterData: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      listInfo: []
+    };
+    this.filterData = this.filterData.bind(this);
+  }
 
   async componentDidMount() {
     await this.props.fetchBooksList();
+    await this.setState({ listInfo: this.props.listInfo });
+    await this.sortData([...this.state.listInfo]);
   }
 
-  sortData(data) {
-    const filteredData = Immutable.asMutable(data).filter(item => {
-      return this.state.filterData ?
-        this.state.filterData === item.name ||
-        this.state.filterData === item.description
-        : true;
-    });
-    return Immutable.asMutable(filteredData).sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
+  async filterData(event) {
+    const data = event.target.value.toUpperCase();
+    if (data.length) {
+      let list = [...this.state.listInfo];
+      const regexp = new RegExp(data, 'g');
+      const listInfo = list.filter(item => (
+        item.name.toUpperCase().search(regexp) !== -1 ||
+        item.description.toUpperCase().search(regexp) !== -1
+      ));
+      await this.setState({ listInfo });
+    } else {
+      await this.setState({ listInfo: this.props.listInfo });
+    }
+    await  this.sortData([...this.state.listInfo]);
+  }
+
+  async sortData(list) {
+    await this.setState({ listInfo: list.sort((a, b) => new Date(b.date) - new Date(a.date)) });
   }
 
   render() {
@@ -38,9 +51,10 @@ class ShowRecipes extends Component {
           <InputGroup>
             <h1 className='title'>Find a Recipe</h1>
             <InputGroupAddon addonType="prepend">
-              <i className="fa fa-search" aria-hidden="true"></i>
+              <i className="fa fa-search" aria-hidden="true"/>
             </InputGroupAddon>
             <Input
+              onChange={this.filterData}
               type="search"
               name="search"
               id="search"
@@ -49,7 +63,7 @@ class ShowRecipes extends Component {
         </div>
         <Container>
           <Row>
-            {this.sortData(this.props.listInfo)
+            {this.state.listInfo
               .map((item, index) => {
                 switch (index) {
                   case 0:
@@ -67,7 +81,7 @@ class ShowRecipes extends Component {
                     return (
                       <Col key={item.name} md="12">
                         <CarouselComponent
-                          data={this.sortData(this.props.listInfo)}
+                          data={this.state.listInfo}
                           changeRoute={this.props.history.push}
                         />
                       </Col>
@@ -98,4 +112,5 @@ ShowRecipes.propTypes = {
 const mapStateToProps = (state) => ({
   listInfo: state.recipesList.recipesList
 });
+
 export default connect(mapStateToProps, { fetchBooksList })(ShowRecipes);

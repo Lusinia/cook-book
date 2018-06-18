@@ -22,7 +22,7 @@ export const addRecipe = (data) => async(dispatch) => {
 export const editRecipe = (values) => async(dispatch) => {
   const {id, data} = values;
   try {
-    const res = await Axios.put(`${BASE_URL}/${id}`, data);
+    const res = await Axios.patch(`${BASE_URL}/${id}`, data);
     dispatch(postRecipeSuccess(res.data));
   } catch (err) {
     dispatch(failureError(err.message));
