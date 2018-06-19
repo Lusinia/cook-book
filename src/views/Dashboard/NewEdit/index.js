@@ -70,15 +70,15 @@ class NewRecipe extends Component {
     }
   }
 
- async toggleModal(isOk) {
+  async toggleModal(isOk) {
     if (isOk) {
       await this.clearStepsField();
     }
-   await this.setState(prevState => ({isModal: !prevState.isModal}));
+    await this.setState(prevState => ({ isModal: !prevState.isModal }));
   }
 
   async submit() {
-    if(this.state.activeStep.length) {
+    if (this.state.activeStep.length) {
       this.toggleModal();
     } else {
       const { username, _id } = this.props.userInfo.user;
@@ -89,7 +89,7 @@ class NewRecipe extends Component {
         imageURL,
         steps,
         ingredients,
-        categories,
+        categories
       } = this.state;
       const data = {
         name,
@@ -111,7 +111,6 @@ class NewRecipe extends Component {
         await this.setState({ time: null });
       } else {
         const isValid = Object.values(data).filter(item => Array.isArray(item) ? !item.length : !item);
-        console.log('isValid', isValid);
         if (!isValid.length) {
           this.currentItem ? await this.props.sendEditRecipeRequest({ id: this.currentItem._id, data }) :
             await this.props.sendAddRecipeRequest({
@@ -128,6 +127,15 @@ class NewRecipe extends Component {
     }
   }
 
+  async removeItem(item, field) {
+    await this.setState(prevState => {
+      const newArray = [...prevState[field]];
+      return {
+        [field]: newArray.filter(i => i !== item)
+      };
+    });
+  }
+
   async clearStepsField() {
     await this.setState(prevState => ({
       steps: [prevState.activeStep, ...prevState.steps],
@@ -137,9 +145,10 @@ class NewRecipe extends Component {
 
   handleKeyPress(e) {
     if (e.key === 'Enter' && this.state.activeStep.length) {
-     this.clearStepsField();
+      this.clearStepsField();
     }
   }
+
   render() {
     return (
       <div className="new-recipe">
@@ -150,6 +159,7 @@ class NewRecipe extends Component {
             handleChangeText={this.handleChangeText.bind(this)}
             handleChangeArray={this.handleChangeArray.bind(this)}
             submit={this.submit.bind(this)}
+            removeItem={this.removeItem.bind(this)}
           />
           <ModalItem isModal={this.state.isModal} toggle={this.toggleModal}>
             <div>

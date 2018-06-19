@@ -66,6 +66,7 @@ const RecipeForm = (props) => (
             values={props.values[item]}
             items={INPUT[item.toUpperCase()]}
             handleChangeArray={props.handleChangeArray}
+            removeItem={(innerItem) => props.removeItem(innerItem, item)}
           />
         </div>
       ))}
@@ -128,6 +129,7 @@ RecipeForm.propTypes = {
   submit: PropTypes.func,
   handleChangeText: PropTypes.func,
   handleChangeArray: PropTypes.func,
+  removeItem: PropTypes.func,
   handleKeyPress: PropTypes.func,
   values: PropTypes.shape({
     name: PropTypes.string,

@@ -16,7 +16,9 @@ const FakeInput = (props) =>  (
               <p
                 className='input-item'
                 key={item}
-              >{item}</p>
+              >{item}
+              <i className="fa fa-close" onClick={() => props.removeItem(item)}/>
+              </p>
             ))
             :
             <p>{props.title} will be here</p>
@@ -41,6 +43,7 @@ const FakeInput = (props) =>  (
 
 FakeInput.propTypes = {
   handleChangeArray: PropTypes.func,
+  removeItem: PropTypes.func,
   values: PropTypes.array,
   items: PropTypes.array,
   title: PropTypes.string
