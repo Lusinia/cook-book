@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Col, Container, Row, Button } from 'reactstrap';
-import { sendRemoveRecipeRequest } from '../../../../redux/actions/changeRecipe';
+import { sendRemoveRecipeRequest } from '../../../redux/actions/changeRecipe';
 import ModalItem from './components/ModalItem';
-import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
+import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
 import ItemsList from './components/ItemsList';
 import './styles.scss';
 
@@ -125,7 +125,9 @@ class ShowRecipe extends Component {
             </Row>
           </div>
           }
-          <ModalItem isModal={this.state.isModal} toggle={this.toggleModal.bind(this)}/>
+          <ModalItem isModal={this.state.isModal} toggle={this.toggleModal.bind(this)}>
+            <p> After pressing the button, the recipe will be deleted.</p>
+          </ModalItem>
         </Container>
       </div>
     );

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import ShowRecipes from './components/Index';
-import NewRecipe from './components/NewEdit';
-import ShowRecipe from './components/Show';
+import ShowRecipes from './ShowList';
+import NewRecipe from './NewEdit';
+import ShowRecipe from './Show';
 import './styles.scss';
 
 

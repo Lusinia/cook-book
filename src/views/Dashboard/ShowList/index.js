@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col, Container, Input, InputGroup, InputGroupAddon, Row } from 'reactstrap';
-import { SM_WIDTH } from '../../../../constants';
-import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
+import { SM_WIDTH } from '../../../constants';
+import { getUserInfo } from '../../../redux/actions/authentication';
+import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
 import CarouselComponent from './components/CarouselItem';
 import RecipeItem from './components/RecipeItem';
 import './styles.scss';
@@ -20,8 +21,8 @@ class ShowRecipes extends Component {
 
   async componentDidMount() {
     await this.props.fetchBooksList();
+    await this.props.getUserInfo();
     await this.setState({ listInfo: this.props.listInfo });
-    await this.sortData([...this.state.listInfo]);
   }
 
   async filterData(event) {
@@ -37,12 +38,8 @@ class ShowRecipes extends Component {
     } else {
       await this.setState({ listInfo: this.props.listInfo });
     }
-    await  this.sortData([...this.state.listInfo]);
   }
 
-  async sortData(list) {
-    await this.setState({ listInfo: list.sort((a, b) => new Date(b.date) - new Date(a.date)) });
-  }
 
   render() {
     return (
@@ -106,11 +103,13 @@ class ShowRecipes extends Component {
 }
 
 ShowRecipes.propTypes = {
-  listInfo: PropTypes.array
+  listInfo: PropTypes.array,
+  fetchBooksList: PropTypes.func,
+  getUserInfo: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   listInfo: state.recipesList.recipesList
 });
 
-export default connect(mapStateToProps, { fetchBooksList })(ShowRecipes);
+export default connect(mapStateToProps, { fetchBooksList, getUserInfo })(ShowRecipes);

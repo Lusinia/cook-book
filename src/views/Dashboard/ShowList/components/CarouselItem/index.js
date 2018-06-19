@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Carousel, CarouselItem } from 'reactstrap';
-import { SLIDING_TIME, SM_WIDTH } from '../../../../../../constants';
+import { SLIDING_TIME, SM_WIDTH } from '../../../../../constants';
 import RecipeItem from '../RecipeItem';
 
 

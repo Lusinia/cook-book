@@ -1,0 +1,12 @@
+@import './../../style/variables.scss';
+
+.form-group {
+  .form-control {
+    font-size: 0.9rem;
+  }
+
+  label {
+    font-size: 0.9rem;
+    color: $silver;
+  }
+}

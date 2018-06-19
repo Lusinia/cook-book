@@ -10,7 +10,7 @@ const ItemsList = (props) => {
       <ListGroupItem className={props.isStep ? 'item-step' : ''} key={`${item}${index}`}>{item}</ListGroupItem>
     ))
     :
-    (<ListGroupItem>{data} min</ListGroupItem>);
+    <ListGroupItem>{data} min</ListGroupItem>;
 
   return (
     <div className='items-list'>

@@ -1,24 +1,32 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import './styles.scss';
+import "./styles.scss";
 
 
 const ModalItem = (props) => {
-  const toggle = (isDelete) => {
-    props.toggle(isDelete);
+  const toggle = (isExecute) => {
+    props.toggle(isExecute);
   };
 
   return (
     <div className='modal-item'>
       <Modal isOpen={props.isModal} className={props.className}>
-        <ModalHeader toggle={() => toggle(false)}>Are you sure?</ModalHeader>
+        {props.title && <ModalHeader>{props.title}</ModalHeader>}
         <ModalBody>
-          After pressing the button, the recipe will be deleted.
+          {props.children}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => toggle(true)}>Delete</Button>
-          <Button color="secondary" onClick={() => toggle(false)}>Cancel</Button>
+          <Button
+            outline
+            color="primary"
+            onClick={() => toggle(true)}
+          >Ok</Button>
+          <Button
+            outline
+            color="secondary"
+            onClick={() => toggle(false)}
+          >Cancel</Button>
         </ModalFooter>
       </Modal>
     </div>
@@ -26,6 +34,7 @@ const ModalItem = (props) => {
 };
 
 ModalItem.propTypes = {
+  title: PropTypes.string,
   toggle: PropTypes.func,
 };
 

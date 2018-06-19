@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
-import ItemsList from '../../../../components/Show/components/ItemsList';
-import { INPUT } from '../../../../../../constants';
+import ItemsList from '../../../Show/components/ItemsList';
+import { INPUT } from '../../../../../constants';
 import FakeInput from '../FakeInput';
 import './styles.scss';
 

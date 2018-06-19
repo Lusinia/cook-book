@@ -10,6 +10,12 @@ export const postRecipeSuccess = payload => ({
 });
 
 
+export const editRatingSuccess = payload => ({
+  type: types.RATING_REQUEST,
+  payload
+});
+
+
 export const addRecipe = (data) => async(dispatch) => {
   try {
     const res = await Axios.post(BASE_URL, data);
@@ -22,12 +28,23 @@ export const addRecipe = (data) => async(dispatch) => {
 export const editRecipe = (values) => async(dispatch) => {
   const {id, data} = values;
   try {
-    const res = await Axios.patch(`${BASE_URL}/${id}`, data);
+    const res = await Axios.put(`${BASE_URL}/${id}`, data);
     dispatch(postRecipeSuccess(res.data));
   } catch (err) {
     dispatch(failureError(err.message));
   }
 };
+
+export const editRecipeRating = (values) => async(dispatch) => {
+  const {id, data} = values;
+  try {
+    const res = await Axios.patch(`${BASE_URL}/${id}?_method=PATCH`, data);
+    dispatch(editRatingSuccess({data: res.data, id}));
+  } catch (err) {
+    dispatch(failureError(err.message));
+  }
+};
+
 
 export const removeRecipe = (id) => async(dispatch) => {
   try {

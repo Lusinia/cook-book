@@ -1,0 +1,15 @@
+.navbar {
+  .nav-link {
+    font-size: 0.8rem;
+  }
+  &-light {
+    .navbar-brand {
+      font-size: 0.9rem;
+      color: #6c4a3e;
+
+      &:hover {
+        color: #325422;
+      }
+    }
+  }
+}

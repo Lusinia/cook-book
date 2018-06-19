@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
-import { sendAddRecipeRequest, sendEditRecipeRequest } from '../../../../redux/actions/changeRecipe';
-import { fetchBooksList } from '../../../../redux/actions/fetchRecipes';
+import { sendAddRecipeRequest, sendEditRecipeRequest } from '../../../redux/actions/changeRecipe';
+import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
 import RecipeForm from './components/RecipeForm';
 import './styles.scss';
 
@@ -23,7 +23,8 @@ class NewRecipe extends Component {
       isPushed: false,
       rating: {
         count: 0,
-        value: 0
+        value: 0,
+        userId:[]
       },
       activeStep: ''
     };
@@ -97,7 +98,8 @@ class NewRecipe extends Component {
           await this.props.sendAddRecipeRequest({...data,
             rating: {
               count: 0,
-              value: 0
+              value: 0,
+              userId: []
             }
           });
         this.props.history.push('/');
