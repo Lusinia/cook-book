@@ -1,0 +1,25 @@
+.items-list {
+  margin: 1rem 0;
+
+  .list-group-item {
+    display: flex;
+    padding: 0.4rem 1.25rem;
+    background: transparent;
+    text-align: left;
+
+    &:before {
+      font-family: FontAwesome;
+      content: "\f094";
+      padding-right: 0.5rem;
+      color: orange;
+    }
+    &.item-step {
+      &:before {
+        font-family: FontAwesome;
+        content: "\f005";
+        padding-right: 0.5rem;
+        color: green;
+      }
+    }
+  }
+}

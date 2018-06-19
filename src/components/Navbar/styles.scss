@@ -1,0 +1,26 @@
+@import 'src/style/variables.scss';
+
+.navbar {
+  .nav-link {
+    font-size: 0.8rem;
+  }
+  &-light {
+    .navbar-brand {
+      font-size: 0.9rem;
+      color: $shaft;
+
+      .avatar {
+        display: flex;
+        .user-name {
+          font-weight: bold;
+          color: $apple;
+          padding-right: 10px;
+        }
+      }
+
+      &:hover {
+        color: $apple;
+      }
+    }
+  }
+}
