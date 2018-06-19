@@ -1,3 +1,5 @@
+@import './../../style/variables.scss';
+
 .navbar {
   .nav-link {
     font-size: 0.8rem;
@@ -6,6 +8,15 @@
     .navbar-brand {
       font-size: 0.9rem;
       color: #6c4a3e;
+
+      .avatar {
+        display: flex;
+        .user-name {
+          font-weight: bold;
+          color: $apple;
+          padding-right: 10px;
+        }
+      }
 
       &:hover {
         color: #325422;

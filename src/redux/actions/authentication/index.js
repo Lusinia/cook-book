@@ -31,6 +31,7 @@ export const logoutUser = () => async dispatch => {
   try {
     await Axios.get(LOGOUT_URL);
     localStorage.removeItem('token');
+    dispatch(getUserSuccess({ username: '' }));
   } catch (err) {
     dispatch(failureError(err.message));
   }
@@ -38,8 +39,7 @@ export const logoutUser = () => async dispatch => {
 
 export const userInfo = () => async dispatch => {
   try {
-    const res = await Axios.post(USER_URL, {token: loggedIn});
-    console.log('res', res.data);
+    const res = await Axios.post(USER_URL, { token: loggedIn });
     dispatch(getUserSuccess(res.data));
   } catch (err) {
     dispatch(failureError(err.message));

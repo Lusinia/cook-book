@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
+import { getUserInfo } from '../../../redux/actions/authentication';
 import { sendAddRecipeRequest, sendEditRecipeRequest } from '../../../redux/actions/changeRecipe';
 import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
 import RecipeForm from './components/RecipeForm';
@@ -24,7 +25,7 @@ class NewRecipe extends Component {
       rating: {
         count: 0,
         value: 0,
-        userId:[]
+        usersId:[]
       },
       activeStep: ''
     };
@@ -32,7 +33,7 @@ class NewRecipe extends Component {
 
   async componentDidMount() {
     await this.props.fetchBooksList();
-
+    await this.props.getUserInfo();
     const path = this.props.location.pathname.split('/');
     this.currentItem = path.includes('edit') ? this.props.listInfo.find(item => item._id === path[1]) : null;
     if (this.currentItem) {
@@ -68,6 +69,7 @@ class NewRecipe extends Component {
   }
 
   async submit() {
+    const {username, _id} = this.props.userInfo.user;
     const {
       name,
       time,
@@ -84,7 +86,11 @@ class NewRecipe extends Component {
       description,
       steps,
       time: +time,
-      imageURL
+      imageURL,
+      author: {
+        username,
+        id: _id,
+      }
     };
 
     await this.setState({ isPushed: true });
@@ -99,7 +105,7 @@ class NewRecipe extends Component {
             rating: {
               count: 0,
               value: 0,
-              userId: []
+              usersId: []
             }
           });
         this.props.history.push('/');
@@ -128,16 +134,19 @@ NewRecipe.propTypes = {
   listInfo: PropTypes.array,
   sendAddRecipeRequest: PropTypes.func,
   sendEditRecipeRequest: PropTypes.func,
+  getUserInfo: PropTypes.func,
   fetchBooksList: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
   info: state.changeRecipeResponse.info,
-  listInfo: state.recipesList.recipesList
+  listInfo: state.recipesList.recipesList,
+  userInfo: state.user.userInfo
 });
 
 export default connect(mapStateToProps, {
   sendAddRecipeRequest,
   sendEditRecipeRequest,
-  fetchBooksList
+  fetchBooksList,
+  getUserInfo
 })(NewRecipe);

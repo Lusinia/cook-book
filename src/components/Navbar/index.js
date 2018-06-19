@@ -8,6 +8,7 @@ import { loggedIn } from '../../helpers';
 import { sendLoginRequest, sendLogoutRequest, sendRegisterRequest } from '../../redux/actions/authentication';
 import ModalItem from '../../views/Dashboard/Show/components/ModalItem';
 import AuthForm from '../AuthForm';
+import Avatar from '../MainTitle';
 import './styles.scss';
 
 
@@ -65,13 +66,14 @@ class AppNavbar extends Component {
   }
 
   render() {
-    console.log('this.props', this.props.userInfo);
     const { username, password } = this.state;
+    const condition = this.props.userInfo && this.props.userInfo.user && this.props.userInfo.user.username;
+
     return (
       <div>
         <Navbar color="light" light expand="md">
           <NavbarBrand tag={Link} to="/">
-            Your Cook Book
+            <Avatar name={ condition ? this.props.userInfo.user.username  : 'User'}/>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -127,7 +129,7 @@ AppNavbar.propTypes = {
   sendLoginRequest: PropTypes.func,
   sendLogoutRequest: PropTypes.func,
   sendRegisterRequest: PropTypes.func,
-  userInfo: PropTypes.object,
+  userInfo: PropTypes.object
 };
 
 export default connect(mapStateToProps, {

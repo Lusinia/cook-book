@@ -4,7 +4,9 @@ import * as type from '../actions/authentication/actionsTypes';
 
 const initialState = Immutable({
   response: null,
-  userInfo: null
+  userInfo: {
+    username: ''
+  }
 });
 
 export default (state = initialState, action = {}) => {

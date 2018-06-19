@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Col, Container, Row, Button } from 'reactstrap';
+import { getUserInfo } from '../../../redux/actions/authentication';
 import { sendRemoveRecipeRequest } from '../../../redux/actions/changeRecipe';
 import ModalItem from './components/ModalItem';
 import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
@@ -25,6 +26,7 @@ class ShowRecipe extends Component {
 
   async componentDidMount() {
     await this.props.fetchBooksList();
+    await this.props.getUserInfo();
 
     const path = this.props.location.pathname;
     const id = path.substring(1, path.length);
@@ -43,6 +45,12 @@ class ShowRecipe extends Component {
     if (isDelete) {
       await this.props.sendRemoveRecipeRequest(this.state.currentItem._id);
       this.redirectPage();
+    }
+  }
+
+  isRecipeBelongsToUser() {
+    if (this.state.currentItem) {
+      return this.props.userInfo.user._id === this.state.currentItem.author.id;
     }
   }
 
@@ -85,6 +93,7 @@ class ShowRecipe extends Component {
 
               </Col>
               <Col sm={{ size: 12, order: 1 }} md={{ size: 4, order: 2 }}>
+                {this.isRecipeBelongsToUser() &&
                 <div className="buttons-wrapper">
                   <Row>
                     <Col sm='6' md='12'>
@@ -109,6 +118,7 @@ class ShowRecipe extends Component {
                     </Col>
                   </Row>
                 </div>
+                }
                 <ItemsList
                   title='Ingredients'
                   items={this.state.currentItem.ingredients}
@@ -138,12 +148,19 @@ class ShowRecipe extends Component {
 ShowRecipe.propTypes = {
   listInfo: PropTypes.array,
   location: PropTypes.object,
+  userInfo: PropTypes.object,
   fetchBooksList: PropTypes.func,
+  getUserInfo: PropTypes.func,
   sendRemoveRecipeRequest: PropTypes.func
 };
 
 const mapStateToProps = (state) => ({
-  listInfo: state.recipesList.recipesList
+  listInfo: state.recipesList.recipesList,
+  userInfo: state.user.userInfo
 });
 
-export default connect(mapStateToProps, { fetchBooksList, sendRemoveRecipeRequest })(ShowRecipe);
+export default connect(mapStateToProps, {
+  fetchBooksList,
+  sendRemoveRecipeRequest,
+  getUserInfo
+})(ShowRecipe);
