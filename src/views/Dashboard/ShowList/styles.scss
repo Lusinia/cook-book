@@ -1,3 +1,5 @@
+@import 'src/style/variables.scss';
+
 .show-recipes {
   .banner-wrapper {
     width: 100vw;
@@ -17,18 +19,18 @@
       min-width: 300px;
 
       .form-control {
-        border: 1px solid #ced4da;
+        border: 1px solid $ghost;
         border-left: none;
         border-bottom-right-radius: 0.25rem;
         border-top-right-radius: 0.25rem;
         box-shadow: none;
       }
       .input-group-prepend {
-        background: #fff;
+        background: $white;
         display: flex;
         align-items: center;
         padding: 0.7rem;
-        border: 1px solid #ced4da;
+        border: 1px solid $ghost;
         border-right: none;
         border-bottom-left-radius: 0.25rem;
         border-top-left-radius: 0.25rem;
@@ -37,7 +39,7 @@
       .title {
         display: block;
         width: 100%;
-        text-shadow: 3px 1px 4px #9e9797;
+        text-shadow: 3px 1px 4px $dusty;
       }
     }
   }

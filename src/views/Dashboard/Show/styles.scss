@@ -1,3 +1,4 @@
+@import 'src/style/variables.scss';
 
 .show-recipe {
   .image-wrapper {
@@ -13,7 +14,7 @@
       bottom: 0;
       right: 0;
       left: 1vw;
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid $white-transparent;
       width: 58vw;
       max-width: 960px;
       height: 38vh;
@@ -32,18 +33,18 @@
       position: absolute;
       width: 30vw;
       height: 20vh;
-      background: #fff;
+      background: $white;
       bottom: -5vh;
       left: 15%;
       display: flex;
       align-items: center;
       padding: 1rem;
-      border: 1px solid #eee;
+      border: 1px solid $gallery;
       z-index: 10;
 
       &__text {
         font-size: 1.2rem;
-        color: #333;
+        color: $shaft;
       }
     }
   }

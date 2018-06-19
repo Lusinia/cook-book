@@ -5,6 +5,7 @@ import { Container } from 'reactstrap';
 import { getUserInfo } from '../../../redux/actions/authentication';
 import { sendAddRecipeRequest, sendEditRecipeRequest } from '../../../redux/actions/changeRecipe';
 import { fetchBooksList } from '../../../redux/actions/fetchRecipes';
+import ModalItem from '../Show/components/ModalItem';
 import RecipeForm from './components/RecipeForm';
 import './styles.scss';
 
@@ -25,10 +26,14 @@ class NewRecipe extends Component {
       rating: {
         count: 0,
         value: 0,
-        usersId:[]
+        usersId: []
       },
-      activeStep: ''
+      activeStep: '',
+      isModal: false
     };
+
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   async componentDidMount() {
@@ -57,10 +62,7 @@ class NewRecipe extends Component {
 
   async handleChangeArray(event, field) {
     if (field === 'steps') {
-      await this.setState(prevState => ({
-        steps: [...prevState.steps, prevState.activeStep],
-        activeStep: ''
-      }));
+      await this.clearStepsField();
     } else {
       const target = event.target.value;
       const values = this.state[field].includes(target) ? this.state[field] : [...this.state[field], target];
@@ -68,61 +70,93 @@ class NewRecipe extends Component {
     }
   }
 
+ async toggleModal(isOk) {
+    if (isOk) {
+      await this.clearStepsField();
+    }
+   await this.setState(prevState => ({isModal: !prevState.isModal}));
+  }
+
   async submit() {
-    const {username, _id} = this.props.userInfo.user;
-    const {
-      name,
-      time,
-      description,
-      imageURL,
-      steps,
-      ingredients,
-      categories
-    } = this.state;
-    const data = {
-      name,
-      ingredients,
-      categories,
-      description,
-      steps,
-      time: +time,
-      imageURL,
-      author: {
-        username,
-        id: _id,
-      }
-    };
-
-    await this.setState({ isPushed: true });
-
-    if (+time < 0) {
-      await this.setState({ time: null });
+    if(this.state.activeStep.length) {
+      this.toggleModal();
     } else {
-      const isValid = Object.values(data).filter(item => Array.isArray(item) ? !item.length : !item);
-      if (!isValid.length) {
-        this.currentItem ? await this.props.sendEditRecipeRequest({ id: this.currentItem._id, data }) :
-          await this.props.sendAddRecipeRequest({...data,
-            rating: {
-              count: 0,
-              value: 0,
-              usersId: []
-            }
-          });
-        this.props.history.push('/');
+      const { username, _id } = this.props.userInfo.user;
+      const {
+        name,
+        time,
+        description,
+        imageURL,
+        steps,
+        ingredients,
+        categories,
+      } = this.state;
+      const data = {
+        name,
+        ingredients,
+        categories,
+        description,
+        steps,
+        time: +time,
+        imageURL,
+        author: {
+          username,
+          id: _id
+        }
+      };
+
+      await this.setState({ isPushed: true });
+
+      if (+time < 0) {
+        await this.setState({ time: null });
+      } else {
+        const isValid = Object.values(data).filter(item => Array.isArray(item) ? !item.length : !item);
+        console.log('isValid', isValid);
+        if (!isValid.length) {
+          this.currentItem ? await this.props.sendEditRecipeRequest({ id: this.currentItem._id, data }) :
+            await this.props.sendAddRecipeRequest({
+              ...data,
+              rating: {
+                count: 0,
+                value: 0,
+                usersId: []
+              }
+            });
+          this.props.history.push('/');
+        }
       }
     }
   }
 
+  async clearStepsField() {
+    await this.setState(prevState => ({
+      steps: [prevState.activeStep, ...prevState.steps],
+      activeStep: ''
+    }));
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter' && this.state.activeStep.length) {
+     this.clearStepsField();
+    }
+  }
   render() {
     return (
       <div className="new-recipe">
         <Container>
           <RecipeForm
+            handleKeyPress={this.handleKeyPress}
             values={this.state}
             handleChangeText={this.handleChangeText.bind(this)}
             handleChangeArray={this.handleChangeArray.bind(this)}
             submit={this.submit.bind(this)}
           />
+          <ModalItem isModal={this.state.isModal} toggle={this.toggleModal}>
+            <div>
+              <p>You have to add last step to list.</p>
+              <p>Please click 'Ok' and submit one more time.</p>
+            </div>
+          </ModalItem>
         </Container>
       </div>
     );

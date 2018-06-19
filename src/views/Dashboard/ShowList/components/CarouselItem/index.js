@@ -14,11 +14,15 @@ class CarouselComponent extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
 
+    this.timeInterval=null;
+
     this.setSliding();
   }
-
+  componentWillUnmount() {
+    clearInterval(this.timeInterval);
+  }
   setSliding() {
-    setInterval(() => {
+   this.timeInterval = setInterval(() => {
       this.next();
     }, SLIDING_TIME);
   }

@@ -89,7 +89,8 @@ const RecipeForm = (props) => (
         </Col>
         <Col sm={8}>
           <Input
-            invalid={props.values.isPushed && !props.values.steps.length}
+            onKeyPress={props.handleKeyPress}
+            invalid={props.values.isPushed && !props.values.steps.length && !props.values.activeStep.length}
             type="text"
             name="steps"
             id="steps"
@@ -127,6 +128,7 @@ RecipeForm.propTypes = {
   submit: PropTypes.func,
   handleChangeText: PropTypes.func,
   handleChangeArray: PropTypes.func,
+  handleKeyPress: PropTypes.func,
   values: PropTypes.shape({
     name: PropTypes.string,
     description: PropTypes.string,

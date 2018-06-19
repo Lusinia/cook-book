@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import ShowRecipes from './ShowList';
 import NewRecipe from './NewEdit';
 import ShowRecipe from './Show';
-import './styles.scss';
 
 
 class Dashboard extends Component {

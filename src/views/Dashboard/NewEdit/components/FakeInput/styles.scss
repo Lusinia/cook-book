@@ -1,11 +1,13 @@
+@import 'src/style/variables.scss';
+
 .fake-input {
   width: 100%;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  border: 1px solid #ced4da;
+  color: $trout;
+  background-color: $blue-transparent;
+  border: 1px solid $ghost;
   border-radius: 0.25rem;
   display: flex;
 
@@ -15,7 +17,7 @@
     &.input-item {
       background: grey;
       border-radius: 3px;
-      color: #fff;
+      color: $white;
       padding: 0.1rem 0.4rem;
     }
   }

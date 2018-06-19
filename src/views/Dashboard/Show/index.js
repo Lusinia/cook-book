@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { Col, Container, Row, Button } from 'reactstrap';
+import { loggedIn } from '../../../helpers';
 import { getUserInfo } from '../../../redux/actions/authentication';
 import { sendRemoveRecipeRequest } from '../../../redux/actions/changeRecipe';
 import ModalItem from './components/ModalItem';
@@ -49,7 +50,7 @@ class ShowRecipe extends Component {
   }
 
   isRecipeBelongsToUser() {
-    if (this.state.currentItem) {
+    if (this.state.currentItem && loggedIn) {
       return this.props.userInfo.user._id === this.state.currentItem.author.id;
     }
   }

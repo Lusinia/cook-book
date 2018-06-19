@@ -14,7 +14,7 @@ class RecipeItem extends Component {
     this.state = {
       data: props.data,
       info: null,
-      activeID: null,
+      activeClickID: null,
       isUserChangedRating: props.data.rating.usersId.includes(props.userInfo._id)
     };
   }
@@ -23,12 +23,12 @@ class RecipeItem extends Component {
     const isUser = nextProps.userInfo.user && nextProps.userInfo.user._id;
     return {
       isUserChangedRating: isUser ? nextProps.data.rating.usersId.includes(nextProps.userInfo.user._id) : false,
-      info: nextState.activeID ? nextProps.info : null
+      info: nextState.activeClickID ? nextProps.info : null
     };
   }
 
   onChange = async (data) => {
-    if (!this.props.data.rating.usersId.includes(this.props.userInfo.user._id) && !this.state.activeID) {
+    if (!this.props.data.rating.usersId.includes(this.props.userInfo.user._id) && !this.state.activeClickID) {
       const requestData = {
         id: this.props.data._id,
         data: {
@@ -36,7 +36,7 @@ class RecipeItem extends Component {
           usersId: this.props.userInfo.user._id
         }
       };
-      await this.setState({ activeID: this.props.data._id });
+      await this.setState({ activeClickID: this.props.data._id });
       await this.props.editRecipeRating(requestData);
     }
   };
@@ -44,7 +44,8 @@ class RecipeItem extends Component {
   getReadonly() {
     const isUser = this.props.userInfo.user && this.props.userInfo.user.username && this.props.userInfo.user.username;
     if (isUser) {
-      const userLoggedIn = !!(this.state.activeID || this.state.isUserChangedRating) && !!this.props.userInfo.user.username;
+      const userLoggedIn = !!(this.state.activeClickID || this.state.isUserChangedRating) &&
+        !!this.props.userInfo.user.username;
       const userNotLoggedIn = !this.props.userInfo.user.username;
       return userLoggedIn || userNotLoggedIn;
     } else {
@@ -56,7 +57,7 @@ class RecipeItem extends Component {
     const { data } = this.state;
     let shownRating = null;
     if (this.state.info) {
-      shownRating = this.state.info.find(item => item.id === this.state.activeID);
+      shownRating = this.state.info.find(item => item.id === this.state.activeClickID);
     }
 
     return (
@@ -64,12 +65,7 @@ class RecipeItem extends Component {
         this.props.isBigCard ? 'show-recipe big-card' : 'show-recipe'}>
         {this.state.data &&
         <Card>
-          <CardImg
-            top
-            width="100%"
-            src={this.state.data.imageURL}
-            alt="Recipe image"
-            onClick={() => {
+          <CardImg top width="100%" src={this.state.data.imageURL} alt="Recipe image" onClick={() => {
               this.props.changeRoute(`/${data._id}`);
             }}
           />
