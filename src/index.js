@@ -1,17 +1,19 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import { render } from 'react-dom';
-import 'bootstrap/dist/css/bootstrap.css';
-import '../node_modules/font-awesome/css/font-awesome.min.css';
-import './index.scss';
-import App from './App';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
-import reducers from './redux/reducers';
+import { applyMiddleware, createStore } from 'redux';
+import logger from 'redux-logger';
 import thunk from 'redux-thunk';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
+import App from './App';
+import './index.scss';
+import reducers from './redux/reducers';
+import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(reducers, applyMiddleware(thunk));
+
+const store = createStore(reducers, applyMiddleware(thunk, logger));
 
 
 render((

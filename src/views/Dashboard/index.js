@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import './styles.scss';
-import ShowRecipes from './components/Index';
-import EditRecipe from './components/Edit';
 import { Route, Switch } from 'react-router-dom';
-import NewRecipe from './components/New';
-import ShowRecipe from './components/Show';
+import ShowRecipes from './ShowList';
+import NewRecipe from './NewEdit';
+import ShowRecipe from './Show';
 
 
 class Dashboard extends Component {
@@ -13,7 +11,7 @@ class Dashboard extends Component {
       <div className="Dashboard">
         <Switch>
           <Route path="/" exact component={ShowRecipes} />
-          <Route path="/:id/edit" exact component={EditRecipe} />
+          <Route path="/:id/edit" exact component={NewRecipe} />
           <Route path="/new" exact component={NewRecipe} />
           <Route path="/:id" exact component={ShowRecipe} />
         </Switch>

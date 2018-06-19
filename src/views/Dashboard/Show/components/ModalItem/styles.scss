@@ -1,0 +1,15 @@
+@import 'src/style/variables.scss';
+
+.modal-footer {
+  justify-content: space-around;
+
+  button.btn {
+    width: 30%;
+  }
+}
+
+.modal-header {
+  justify-content: center;
+  color: $apple;
+}
+
